@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PAIR ARCHIVE</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap');
+
+*{box-sizing:border-box}
+
+:root{
+ --bg:#ededf0;
+ --white:#fff;
+ --ink:#33333a;
+ --gray:#9999a1;
+ --line:#dedee3;
+ --soft:#f5f5f6;
+}
+
+body{
+ margin:0;
+ background:var(--bg);
+ color:var(--ink);
+ font-family:'DM Sans','Noto Sans KR',sans-serif;
+ overflow-x:auto;
+}
+
+button,input,textarea{font:inherit}
+
+button{cursor:pointer}
+
+.header{
+ text-align:center;
+ padding:30px 15px 20px;
+}
+
+.header small{
+ color:#aaa;
+ letter-spacing:4px;
+ font-size:10px;
+}
+
+.header h1{
+ font-size:40px;
+ letter-spacing:-2px;
+ margin:5px 0;
+}
+
+.header p{
+ font-size:10px;
+ color:#999;
+}
+
+.toolbar{
+ display:flex;
+ justify-content:center;
+ gap:8px;
+ flex-wrap:wrap;
+ padding:0 15px 20px;
+}
+
+.toolbar button{
+ background:white;
+ border:1px solid var(--line);
+ border-radius:7px;
+ padding:9px 15px;
+ font-size:11px;
+}
+
+.sheet{
+ width:1800px;
+ margin:0 auto 40px;
+ padding:35px;
+ background:white;
+ border-radius:18px;
+}
+
+.pair-header{
+ text-align:center;
+ margin-bottom:30px;
+}
+
+.pair-header input{
+ width:100%;
+ text-align:center;
+ border:0;
+ outline:0;
+ font-size:42px;
+ font-weight:800;
+ letter-spacing:3px;
+}
+
+.pair-header textarea{
+ display:block;
+ margin:auto;
+ width:500px;
+ max-width:100%;
+ border:0;
+ resize:none;
+ text-align:center;
+ font-size:11px;
+ color:#999;
+ outline:0;
+}
+
+.columns{
+ display:grid;
+ grid-template-columns:1fr 1.15fr 1fr;
+ gap:30px;
+}
+
+.profile,.center{min-width:0}
+
+.person-title{
+ display:flex;
+ align-items:center;
+ gap:10px;
+ margin-bottom:12px;
+}
+
+.badge{
+ background:#333;
+ color:white;
+ width:32px;
+ height:32px;
+ display:grid;
+ place-items:center;
+ border-radius:7px;
+ font-weight:bold;
+}
+
+.person-title input{
+ border:0;
+ border-bottom:1px solid var(--line);
+ font-size:21px;
+ font-weight:bold;
+ outline:0;
+ padding:5px;
+ width:100%;
+}
+
+.subline{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:8px;
+ margin-bottom:12px;
+}
+
+.subline input{
+ width:100%;
+ border:0;
+ border-bottom:1px solid var(--line);
+ padding:8px 3px;
+ outline:0;
+ font-size:11px;
+}
+
+/* 이미지 공통 */
+
+.image-box{
+ position:relative;
+ background:#f1f1f3;
+ border:1px solid var(--line);
+ border-radius:10px;
+ overflow:hidden;
+}
+
+.image-box img{
+ width:100%;
+ height:100%;
+ object-fit:cover;
+ display:block;
+}
+
+.image-placeholder{
+ height:100%;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ color:#aaa;
+ font-size:11px;
+ gap:10px;
+ text-align:center;
+}
+
+.image-actions{
+ position:absolute;
+ bottom:9px;
+ left:0;
+ right:0;
+ display:flex;
+ justify-content:center;
+ gap:5px;
+ z-index:3;
+}
+
+.image-actions label,
+.image-actions button{
+ background:#333d;
+ color:white;
+ border:0;
+ padding:7px 11px;
+ border-radius:5px;
+ font-size:10px;
+ cursor:pointer;
+}
+
+.image-actions input{display:none}
+
+.portrait{
+ width:100%;
+ aspect-ratio:1/1;
+}
+
+.profile-top{
+ display:grid;
+ grid-template-columns:1fr 100px;
+ gap:10px;
+}
+
+.mini-stack{
+ display:flex;
+ flex-direction:column;
+ gap:9px;
+}
+
+.mini{
+ height:85px;
+}
+
+.section{
+ border:1px solid var(--line);
+ border-radius:9px;
+ margin-top:13px;
+ overflow:hidden;
+}
+
+.section h3{
+ background:#f0f0f1;
+ padding:10px;
+ margin:0;
+ font-size:11px;
+}
+
+.section-content{
+ padding:11px;
+}
+
+.field-grid{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:9px;
+}
+
+.field label{
+ display:block;
+ font-size:9px;
+ color:#999;
+ margin-bottom:5px;
+}
+
+.field input,
+.field textarea,
+.textarea{
+ width:100%;
+ border:1px solid #e5e5e8;
+ border-radius:5px;
+ padding:9px;
+ font-size:11px;
+ outline:0;
+}
+
+.field textarea,.textarea{
+ resize:vertical;
+ min-height:85px;
+}
+
+.color-row{
+ display:flex;
+ align-items:center;
+ gap:10px;
+ font-size:10px;
+ color:#999;
+ margin-top:10px;
+}
+
+.color-row input{
+ width:30px;
+ height:25px;
+ border:0;
+}
+
+.gallery-header{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ margin:18px 0 9px;
+}
+
+.gallery-header h3{
+ font-size:12px;
+ margin:0;
+}
+
+.add-btn{
+ background:white;
+ border:1px solid var(--line);
+ border-radius:5px;
+ padding:7px 11px;
+ font-size:10px;
+}
+
+.gallery{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:9px;
+}
+
+.gallery-item{
+ height:130px;
+}
+
+.nano{
+ border:1px solid var(--line);
+ padding:12px;
+ border-radius:9px;
+ margin-top:13px;
+}
+
+.nano h3{
+ font-size:11px;
+ margin:0 0 10px;
+}
+
+.nano-grid{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:8px;
+}
+
+.nano-item{
+ height:95px;
+}
+
+.nano-item img{
+ object-fit:contain;
+}
+
+.center-quotes{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:10px;
+ margin-bottom:12px;
+}
+
+.quote{
+ background:#f0f0f1;
+ padding:12px;
+ border-radius:9px;
+ text-align:center;
+}
+
+.quote textarea{
+ width:100%;
+ border:0;
+ background:transparent;
+ text-align:center;
+ resize:vertical;
+ outline:0;
+ font-size:11px;
+}
+
+.hero{
+ height:430px;
+}
+
+.hero img{
+ object-fit:contain;
+}
+
+.hero-title{
+ text-align:center;
+ font-size:10px;
+ color:#aaa;
+ margin:10px;
+}
+
+.sd-grid{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:12px;
+ margin:15px 0;
+}
+
+.sd{
+ height:140px;
+}
+
+.relationship{
+ border:1px solid var(--line);
+ border-radius:10px;
+ padding:13px;
+}
+
+.relationship h3{
+ font-size:12px;
+ margin:0 0 12px;
+}
+
+.rel-inputs{
+ display:grid;
+ grid-template-columns:1fr 30px 1fr;
+ gap:8px;
+ align-items:center;
+ margin-bottom:10px;
+}
+
+.rel-inputs input{
+ width:100%;
+ padding:8px;
+ border:1px solid var(--line);
+ border-radius:5px;
+ font-size:10px;
+}
+
+.rel-inputs span{text-align:center}
+
+.story{
+ margin-top:13px;
+}
+
+.story h3{
+ font-size:11px;
+ margin-bottom:7px;
+}
+
+.story textarea{
+ width:100%;
+ min-height:90px;
+ border:1px solid var(--line);
+ border-radius:6px;
+ padding:10px;
+ resize:vertical;
+ font-size:11px;
+}
+
+.footer{
+ text-align:center;
+ color:#aaa;
+ font-size:10px;
+ padding:25px;
+}
+
+@media(max-width:1850px){
+ .sheet{margin-left:20px;margin-right:20px}
+}
+
+@media print{
+ .toolbar,.image-actions,.add-btn{display:none!important}
+ body{background:white}
+ .sheet{margin:0}
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+ <small>PAIR ARCHIVE / TEMPLATE 01</small>
+ <h1>PAIR MAKER</h1>
+ <p>TWO CHARACTERS · ONE RELATIONSHIP</p>
+</header>
+
+<div class="toolbar">
+ <button onclick="saveJSON()">JSON 저장</button>
+ <button onclick="document.getElementById('jsonFile').click()">JSON 불러오기</button>
+ <input type="file" id="jsonFile" hidden accept=".json" onchange="loadJSON(event)">
+ <button onclick="savePNG()">PNG 저장</button>
+ <button onclick="window.print()">PDF 저장</button>
+ <button onclick="location.reload()">초기화</button>
+</div>
+
+<main class="sheet" id="capture">
+
+<div class="pair-header">
+ <input id="pairName" value="PAIR NAME">
+ <textarea id="pairTags" placeholder="#PAIR #KEYWORD">#PAIR TAG　#RELATIONSHIP　#KEYWORD</textarea>
+</div>
+
+<div class="columns">
+
+<!-- A PROFILE -->
+<section class="profile" id="profileA">
+
+<div class="person-title">
+ <span class="badge">A</span>
+ <input data-field="name" value="CHARACTER A">
+</div>
+
+<div class="subline">
+ <input data-field="age" placeholder="나이">
+ <input data-field="gender" placeholder="성별">
+ <input data-field="height" placeholder="키">
+</div>
+
+<div class="profile-top">
+
+<div class="image-box portrait">
+ <div class="image-placeholder">A MAIN IMAGE<br>1080 × 1080 / 1:1</div>
+ <div class="image-actions">
+  <label>이미지 업로드<input type="file" accept="image/*" onchange="uploadImage(event,this)"></label>
+  <button onclick="deleteImage(this)">삭제</button>
+ </div>
+</div>
+
+<div class="mini-stack">
+
+<div class="image-box mini">
+ <div class="image-placeholder">FACE 01</div>
+ <div class="image-actions">
+  <label>업로드<input type="file" accept="image/*" onchange="uploadImage(event,this)"></label>
+  <button onclick="deleteImage(this)">×</button>
+ </div>
+</div>
+
+<div class="image-box mini">
+ <div class="image-placeholder">FACE 02</div>
+ <div class="image-actions">
+  <label>업로드<input type="file" accept="image/*" onchange="uploadImage(event,this)"></label>
+  <button onclick="deleteImage(this)">×</button>
+ </div>
+</div>
+
+</div>
+</div>
+
+<div class="section">
+ <h3>PROFILE / 기본 정보</h3>
+ <div class="section-content field-grid">
+  <div class="field"><label>직업</label><input data-field="job"></div>
+  <div class="field"><label>소속</label><input data-field="group"></div>
+  <div class="field"><label>성격</label><input data-field="personality"></div>
+  <div class="field"><label>호칭</label><input data-field="call"></div>
+ </div>
+</div>
+
+<div class="section">
+ <h3>APPEARANCE / 외관 및 특징</h3>
+ <div class="section-content">
+  <textarea class="textarea" data-field="appearance" placeholder="외관 및 특징"></textarea>
+  <div class="color-row">
+   대표 컬러 <input type="color" data-field="color" value="#777777">
+  </div>
+ </div>
+</div>
+
+<div class="section">
+ <h3>FIXED / 필수 고정 요소</h3>
+ <div class="section-content">
+  <textarea class="textarea" data-field="fixed" placeholder="절대 변경되면 안 되는 특징"></textarea>
+ </div>
+</div>
+
+<div class="gallery-header">
+ <h3>REFERENCE / 사진 자료</h3>
+ <button class="add-btn" onclick="addPhoto('galleryA')">＋ 자료 추가</button>
+</div>
+
+<div class="gallery" id="galleryA"></div>
+
+<div class="nano">
+ <h3>NANAGOM / 나나곰 자료</h3>
+ <div class="nano-grid" id="nanoA"></div>
+ <button class="add-btn" onclick="addPhoto('nanoA')">＋ 나나곰 추가</button>
+</div>
+
+<div class="section">
+ <h3>VOICE / 캐릭터 한마디</h3>
+ <div class="section-content">
+  <textarea class="textarea" data-field="quote"></textarea>
+ </div>
+</div>
+
+</section>
+
+<!-- CENTER -->
+<section class="center">
+
+<div class="center-quotes">
+ <div class="quote">
+  <textarea id="quoteA" placeholder="A의 한마디"></textarea>
+ </div>
+ <div class="quote">
+  <textarea id="quoteB" placeholder="B의 한마디"></textarea>
+ </div>
+</div>
+
+<div class="image-box hero">
+ <div class="image-placeholder">
+  MAIN PAIR IMAGE<br>메인 페어 이미지
+ </div>
+ <div class="image-actions">
+  <label>메인 이미지 업로드<input type="file" accept="image/*" onchange="uploadImage(event,this)"></label>
+  <button onclick="deleteImage(this)">삭제</button>
+ </div>
+</div>
+
+<div class="hero-title">MAIN PAIR VISUAL</div>
+
+<div class="sd-grid">
+
+<div class="image-box sd">
+ <div class="image-placeholder">A SD IMAGE</div>
+ <div class="image-actions">
+  <label>업로드<input type="file" accept="image/*" onchange="uploadImage(event,this)"></label>
+  <button onclick="deleteImage(this)">삭제</button>
+ </div>
+</div>
+
+<div class="image-box sd">
+ <div class="image-placeholder">B SD IMAGE</div>
+ <div class="image-actions">
+  <label>업로드<input type="file" accept="image/*" onchange="uploadImage(event,this)"></label>
+  <button onclick="deleteImage(this)">삭제</button>
+ </div>
+</div>
+
+</div>
+
+<div class="relationship">
+ <h3>RELATIONSHIP / 관계성</h3>
+ <div class="rel-inputs">
+  <input id="relA" placeholder="A → B">
+  <span>↔</span>
+  <input id="relB" placeholder="B → A">
+ </div>
+ <textarea class="textarea" id="relationText" placeholder="두 캐릭터의 관계성"></textarea>
+</div>
+
+<div class="story">
+ <h3>PAIR KEYWORD</h3>
+ <textarea id="keywords" placeholder="페어 키워드"></textarea>
+</div>
+
+<div class="story">
+ <h3>PAIR STORY</h3>
+ <textarea id="story" placeholder="페어 소개 및 서사"></textarea>
+</div>
+
+</section>
+
+<!-- B PROFILE -->
+<section class="profile" id="profileB">
+
+<div class="person-title">
+ <span class="badge">B</span>
+ <input data-field="name" value="CHARACTER B">
+</div>
+
+<div class="subline">
+ <input data-field="age" placeholder="나이">
+ <input data-field="gender" placeholder="성별">
+ <input data-field="height" placeholder="키">
+</div>
+
+<div class="profile-top">
+
+<div class="image-box portrait">
+ <div class="image-placeholder">B MAIN IMAGE<br>1080 × 1080 / 1:1</div>
+ <div class="image-actions">
+  <label>이미지 업로드<input type="file" accept="image/*" onchange="uploadImage(event,this)"></label>
+  <button onclick="deleteImage(this)">삭제</button>
+ </div>
+</div>
+
+<div class="mini-stack">
+
+<div class="image-box mini">
+ <div class="image-placeholder">FACE 01</div>
+ <div class="image-actions">
+  <label>업로드<input type="file" accept="image/*" onchange="uploadImage(event,this)"></label>
+  <button onclick="deleteImage(this)">×</button>
+ </div>
+</div>
+
+<div class="image-box mini">
+ <div class="image-placeholder">FACE 02</div>
+ <div class="image-actions">
+  <label>업로드<input type="file" accept="image/*" onchange="uploadImage(event,this)"></label>
+  <button onclick="deleteImage(this)">×</button>
+ </div>
+</div>
+
+</div>
+</div>
+
+<div class="section">
+ <h3>PROFILE / 기본 정보</h3>
+ <div class="section-content field-grid">
+  <div class="field"><label>직업</label><input data-field="job"></div>
+  <div class="field"><label>소속</label><input data-field="group"></div>
+  <div class="field"><label>성격</label><input data-field="personality"></div>
+  <div class="field"><label>호칭</label><input data-field="call"></div>
+ </div>
+</div>
+
+<div class="section">
+ <h3>APPEARANCE / 외관 및 특징</h3>
+ <div class="section-content">
+  <textarea class="textarea" data-field="appearance" placeholder="외관 및 특징"></textarea>
+  <div class="color-row">
+   대표 컬러 <input type="color" data-field="color" value="#777777">
+  </div>
+ </div>
+</div>
+
+<div class="section">
+ <h3>FIXED / 필수 고정 요소</h3>
+ <div class="section-content">
+  <textarea class="textarea" data-field="fixed" placeholder="절대 변경되면 안 되는 특징"></textarea>
+ </div>
+</div>
+
+<div class="gallery-header">
+ <h3>REFERENCE / 사진 자료</h3>
+ <button class="add-btn" onclick="addPhoto('galleryB')">＋ 자료 추가</button>
+</div>
+
+<div class="gallery" id="galleryB"></div>
+
+<div class="nano">
+ <h3>NANAGOM / 나나곰 자료</h3>
+ <div class="nano-grid" id="nanoB"></div>
+ <button class="add-btn" onclick="addPhoto('nanoB')">＋ 나나곰 추가</button>
+</div>
+
+<div class="section">
+ <h3>VOICE / 캐릭터 한마디</h3>
+ <div class="section-content">
+  <textarea class="textarea" data-field="quote"></textarea>
+ </div>
+</div>
+
+</section>
+
+</div>
+
+<div class="footer">
+PAIR ARCHIVE · TWO CHARACTERS
+</div>
+
+</main>
+
+<script>
+
+/* 이미지 업로드 */
+
+function uploadImage(event,label){
+
+ const file=event.target.files[0];
+ if(!file)return;
+
+ const box=label.closest('.image-box');
+
+ const reader=new FileReader();
+
+ reader.onload=function(e){
+
+  let img=box.querySelector('img');
+
+  if(!img){
+   img=document.createElement('img');
+   box.prepend(img);
+  }
+
+  img.src=e.target.result;
+
+  const placeholder=box.querySelector('.image-placeholder');
+
+  if(placeholder)placeholder.remove();
+
+ };
+
+ reader.readAsDataURL(file);
+ event.target.value='';
+
+}
+
+/* 이미지 삭제 */
+
+function deleteImage(button){
+
+ const box=button.closest('.image-box');
+ const img=box.querySelector('img');
+
+ if(img)img.remove();
+
+ if(!box.querySelector('.image-placeholder')){
+
+  const p=document.createElement('div');
+  p.className='image-placeholder';
+  p.textContent='IMAGE UPLOAD';
+
+  box.prepend(p);
+
+ }
+
+}
+
+/* 사진 자료 추가 */
+
+function addPhoto(id){
+
+ const container=document.getElementById(id);
+ const isNano=id.startsWith('nano');
+
+ const box=document.createElement('div');
+
+ box.className='image-box '+(isNano?'nano-item':'gallery-item');
+
+ box.innerHTML=`
+  <div class="image-placeholder">
+   ${isNano?'NANAGOM':'REFERENCE'}
+  </div>
+  <div class="image-actions">
+   <label>업로드
+    <input type="file" accept="image/*" onchange="uploadImage(event,this)">
+   </label>
+   <button onclick="deleteImage(this)">삭제</button>
+   <button onclick="this.closest('.image-box').remove()">제거</button>
+  </div>
+ `;
+
+ container.appendChild(box);
+
+}
+
+/* 기본 자료칸 3개씩 */
+
+['galleryA','galleryB','nanoA','nanoB'].forEach(id=>{
+ for(let i=0;i<3;i++)addPhoto(id);
+});
+
+/* JSON 저장 */
+
+function collectData(){
+
+ const data={
+  texts:{},
+  profiles:{},
+  images:[]
+ };
+
+ document.querySelectorAll('input,textarea').forEach((el,i)=>{
+
+  if(el.type==='file'||el.type==='color')return;
+
+  if(el.id)data.texts[el.id]=el.value;
+
+  if(el.dataset.field){
+   data.texts['field_'+i]=el.value;
+  }
+
+ });
+
+ ['A','B'].forEach(key=>{
+
+  const profile=document.getElementById('profile'+key);
+
+  data.profiles[key]={
+   fields:[...profile.querySelectorAll('[data-field]')].map(x=>({
+    field:x.dataset.field,
+    value:x.value
+   }))
+  };
+
+ });
+
+ document.querySelectorAll('.image-box').forEach((box,i)=>{
+
+  data.images.push({
+   index:i,
+   src:box.querySelector('img')?.src||''
+  });
+
+ });
+
+ return data;
+
+}
+
+function saveJSON(){
+
+ const blob=new Blob(
+  [JSON.stringify(collectData())],
+  {type:'application/json'}
+ );
+
+ download(blob,'pair-archive.json');
+
+}
+
+function download(blob,name){
+
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement('a');
+
+ a.href=url;
+ a.download=name;
+ a.click();
+
+ URL.revokeObjectURL(url);
+
+}
+
+/* JSON 불러오기 */
+
+function loadJSON(event){
+
+ const file=event.target.files[0];
+ if(!file)return;
+
+ const reader=new FileReader();
+
+ reader.onload=function(e){
+
+  try{
+
+   const data=JSON.parse(e.target.result);
+
+   Object.entries(data.texts||{}).forEach(([key,value])=>{
+
+    const el=document.getElementById(key);
+
+    if(el)el.value=value;
+
+   });
+
+   ['A','B'].forEach(key=>{
+
+    const profile=document.getElementById('profile'+key);
+
+    (data.profiles?.[key]?.fields||[]).forEach(item=>{
+
+     const field=[...profile.querySelectorAll('[data-field]')]
+      .find(x=>x.dataset.field===item.field);
+
+     if(field)field.value=item.value;
+
+    });
+
+   });
+
+   (data.images||[]).forEach(item=>{
+
+    const box=document.querySelectorAll('.image-box')[item.index];
+
+    if(!box||!item.src)return;
+
+    let img=box.querySelector('img');
+
+    if(!img){
+     img=document.createElement('img');
+     box.prepend(img);
+    }
+
+    img.src=item.src;
+
+    box.querySelector('.image-placeholder')?.remove();
+
+   });
+
+   alert('불러오기 완료!');
+
+  }catch(error){
+
+   alert('파일을 불러오지 못했어요.');
+
+  }
+
+ };
+
+ reader.readAsText(file);
+
+}
+
+/* PNG 저장 */
+
+function savePNG(){
+
+ if(typeof html2canvas==='undefined'){
+
+  const script=document.createElement('script');
+
+  script.src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+
+  script.onload=savePNG;
+
+  document.head.appendChild(script);
+
+  return;
+
+ }
+
+ html2canvas(document.getElementById('capture'),{
+  scale:2,
+  backgroundColor:'#ffffff'
+ }).then(canvas=>{
+
+  canvas.toBlob(blob=>{
+   download(blob,'pair-archive.png');
+  });
+
+ });
+
+}
+
+</script>
+
+</body>
+</html>
